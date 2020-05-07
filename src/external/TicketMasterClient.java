@@ -57,8 +57,12 @@ public class TicketMasterClient {
 			e.printStackTrace();
 		}
 
+		// Obtain the geoHash from given lat and lon values
+		String geoHash = GeoHash.encodeGeohash(lat, lon, 8);
+
 		// Build the query for TicketMaster API
-		String query = String.format("apikey=%s&latlong=%s,%s&keyword=%s&radius=%s", API_KEY, lat, lon, keyword, 50);
+		String query = String.format("apikey=%s&geoPoint=%s&keyword=%s&radius=%s", API_KEY, geoHash, keyword, 50);
+
 		// Build the complete URL
 		String url = HOST + ENDPOINT + "?" + query;
 
