@@ -8,13 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * This class provides several rpc helper methods
+ * 
+ * @author Ryan Shang
+ * @date 2020-May-07 11:32:29 AM
+ */
 public class RpcHelper {
 	/**
 	 * Writes a JSON Array to HTTP response
 	 * 
 	 * @param response This is the HTTP response
 	 * 
-	 * @param array This is the JSON array to be added to HTTP response
+	 * @param array    This is the JSON array to be added to HTTP response
 	 * 
 	 * @return Nothing
 	 * 
@@ -33,7 +39,7 @@ public class RpcHelper {
 	 * 
 	 * @param response This is the HTTP response
 	 * 
-	 * @param obj This is the JSON array to be added to HTTP response
+	 * @param obj      This is the JSON array to be added to HTTP response
 	 * 
 	 * @return Nothing
 	 * 

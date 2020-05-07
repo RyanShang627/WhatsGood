@@ -13,6 +13,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * The class connects to the TicketMaster API, sends query, and fetches event
+ * data.
+ * 
+ * @author Ryan Shang
+ * @date 2020-May-07 11:27:42 AM
+ */
 public class TicketMasterClient {
 	private static final String HOST = "https://app.ticketmaster.com";
 	private static final String ENDPOINT = "/discovery/v2/events.json";
@@ -23,9 +30,9 @@ public class TicketMasterClient {
 	 * This method search the events based on the given latitude, longitude, and
 	 * keyword. Finally it returns a JSON array of events.
 	 * 
-	 * @param lat Latitude of the event
+	 * @param lat     Latitude of the event
 	 * 
-	 * @param lon Longitude of the event
+	 * @param lon     Longitude of the event
 	 * 
 	 * @param keyword Keyword of the event
 	 * 
