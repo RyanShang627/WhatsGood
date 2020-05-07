@@ -15,7 +15,7 @@ import org.json.JSONObject;
  *
  */
 public class Item {
-	// fields of an event item
+	// private fields of an event item
 	private String itemId;
 	private String name;
 	private double rating;
@@ -24,6 +24,24 @@ public class Item {
 	private String imageUrl;
 	private String url;
 	private double distance;
+
+	/**
+	 * This private constructor uses builder pattern (ItemBuilder) to instantiate
+	 * 
+	 * @param builder An instance of ItemBuilder class
+	 * @return Item An instance of Item class
+	 */
+	private Item(ItemBuilder builder) {
+		// assign the fields from builder to item
+		this.itemId = builder.itemId;
+		this.name = builder.name;
+		this.rating = builder.rating;
+		this.address = builder.address;
+		this.categories = builder.categories;
+		this.imageUrl = builder.imageUrl;
+		this.url = builder.url;
+		this.distance = builder.distance;
+	}
 
 	/**
 	 * This method obtains the id of the event item
@@ -233,6 +251,15 @@ public class Item {
 		public ItemBuilder setDistance(double distance) {
 			this.distance = distance;
 			return this;
+		}
+
+		/**
+		 * This method builds an instance of the Item class
+		 * 
+		 * @return Item The Item class
+		 */
+		public Item build() {
+			return new Item(this);
 		}
 	}
 
