@@ -106,7 +106,7 @@ public class Item {
 	public JSONObject toJSONObject() {
 		// Create an empty JSON object
 		JSONObject obj = new JSONObject();
-		
+
 		try {
 			// assign the fields to the JSON object
 			obj.put("item_id", itemId);
@@ -121,6 +121,119 @@ public class Item {
 			e.printStackTrace();
 		}
 		return obj;
+	}
+
+	/**
+	 * This class is the internal builder of the Item class. It separates the
+	 * construction of the Item object from its representation so that the same
+	 * construction process can create different representations of the event item.
+	 * 
+	 * Example to instantiate Item class:
+	 * 
+	 * Item item = new ItemBuilder().setItemId().setName().set....build();
+	 * 
+	 * @author Ryan Shang
+	 * @date 2020-May-07 12:13:05 PM
+	 *
+	 */
+	public static class ItemBuilder {
+		// The same fields of Item class
+		private String itemId;
+		private String name;
+		private double rating;
+		private String address;
+		private Set<String> categories;
+		private String imageUrl;
+		private String url;
+		private double distance;
+
+		/**
+		 * This method sets up the id of the item
+		 * 
+		 * @param itemId The id of the item
+		 * @return ItemBuilder
+		 */
+		public ItemBuilder setItemId(String itemId) {
+			this.itemId = itemId;
+			return this;
+		}
+
+		/**
+		 * This method sets up the name of the item
+		 * 
+		 * @param name The name of the item
+		 * @return ItemBuilder
+		 */
+		public ItemBuilder setName(String name) {
+			this.name = name;
+			return this;
+		}
+
+		/**
+		 * This method sets up the rating of the item
+		 * 
+		 * @param rating The rating of the item
+		 * @return ItemBuilder
+		 */
+		public ItemBuilder setRating(double rating) {
+			this.rating = rating;
+			return this;
+		}
+
+		/**
+		 * This method sets up the address of the item
+		 * 
+		 * @param address The address of the item
+		 * @return ItemBuilder
+		 */
+		public ItemBuilder setAddress(String address) {
+			this.address = address;
+			return this;
+		}
+
+		/**
+		 * This method sets up the categories of the item
+		 * 
+		 * @param categories The categories of the item
+		 * @return ItemBuilder
+		 */
+		public ItemBuilder setCategories(Set<String> categories) {
+			this.categories = categories;
+			return this;
+		}
+
+		/**
+		 * This method sets up the url of the image of the item
+		 * 
+		 * @param imageUrl The url of the image of the item
+		 * @return ItemBuilder
+		 */
+		public ItemBuilder setImageUrl(String imageUrl) {
+			this.imageUrl = imageUrl;
+			return this;
+		}
+
+		/**
+		 * This method sets up the url of the item
+		 * 
+		 * @param url The url of the item
+		 * @return ItemBuilder
+		 */
+		public ItemBuilder setUrl(String url) {
+			this.url = url;
+			return this;
+		}
+
+		/**
+		 * This method sets up the distance of the item
+		 * 
+		 * @param distance The distance of the item
+		 * @return ItemBuilder
+		 */
+		public ItemBuilder setDistance(double distance) {
+			this.distance = distance;
+			return this;
+		}
 	}
 
 }
