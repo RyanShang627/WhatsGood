@@ -15,16 +15,14 @@ import org.json.JSONObject;
  * @date 2020-May-07 11:32:29 AM
  */
 public class RpcHelper {
+
 	/**
 	 * Writes a JSON Array to HTTP response
 	 * 
 	 * @param response This is the HTTP response
-	 * 
 	 * @param array    This is the JSON array to be added to HTTP response
-	 * 
 	 * @return Nothing
-	 * 
-	 * @exception IOException On input error
+	 * @throws IOException
 	 */
 	public static void writeJsonArray(HttpServletResponse response, JSONArray array) throws IOException {
 		response.setContentType("application/json");
@@ -38,12 +36,9 @@ public class RpcHelper {
 	 * Writes a JSON Object to HTTP response
 	 * 
 	 * @param response This is the HTTP response
-	 * 
 	 * @param obj      This is the JSON array to be added to HTTP response
-	 * 
 	 * @return Nothing
-	 * 
-	 * @exception IOException On input error
+	 * @throws IOException
 	 */
 	public static void writeJSONObject(HttpServletResponse response, JSONObject obj) throws IOException {
 		response.setContentType("application/json");
