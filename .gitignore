@@ -3,6 +3,9 @@
 # Project specific excludes
 #
 
+# Environment variable
+.env
+
 # Binaries
 *.7z
 *.dmg
