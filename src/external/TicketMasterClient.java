@@ -128,6 +128,74 @@ public class TicketMasterClient {
 	}
 
 	/**
+	 * This helper method obtains the address of an event
+	 * 
+	 * @param event Event in JSON Object format
+	 * @return String The address of the event
+	 * @throws JSONException
+	 */
+	private String getAddress(JSONObject event) throws JSONException {
+		if (!event.isNull("_embedded")) {
+			JSONObject embedded = event.getJSONObject("_embedded");
+			if (!embedded.isNull("venues")) {
+				JSONArray venues = embedded.getJSONArray("venues");
+				for (int i = 0; i < venues.length(); ++i) {
+					JSONObject venue = venues.getJSONObject(i);
+					StringBuilder builder = new StringBuilder();
+					if (!venue.isNull("address")) {
+						JSONObject address = venue.getJSONObject("address");
+						if (!address.isNull("line1")) {
+							builder.append(address.getString("line1"));
+						}
+
+						if (!address.isNull("line2")) {
+							builder.append(",");
+							builder.append(address.getString("line2"));
+						}
+
+						if (!address.isNull("line3")) {
+							builder.append(",");
+							builder.append(address.getString("line3"));
+						}
+					}
+
+					if (!venue.isNull("city")) {
+						JSONObject city = venue.getJSONObject("city");
+						builder.append(",");
+						builder.append(city.getString("name"));
+					}
+
+					String result = builder.toString();
+					if (!result.isEmpty()) {
+						return result;
+					}
+				}
+			}
+		}
+		return "";
+	}
+	
+	/**
+	 * This helper method obtains the URL of the image of an event
+	 * 
+	 * @param event Event in JSON Object format
+	 * @return String The URL of the image of the event
+	 * @throws JSONException
+	 */
+	private String getImageUrl(JSONObject event) throws JSONException {
+		if (!event.isNull("images")) {
+			JSONArray array = event.getJSONArray("images");
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject image = array.getJSONObject(i);
+				if (!image.isNull("url")) {
+					return image.getString("url");
+				}
+			}
+		}
+		return "";
+	}
+
+	/**
 	 * Main entry to test TicketMasterClient.
 	 */
 	public static void main(String[] args) {
