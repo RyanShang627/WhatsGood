@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import entity.Item;
+import entity.Item.ItemBuilder;
 
 /**
  * The class connects to the TicketMaster API, sends query, and fetches event
@@ -125,6 +126,34 @@ public class TicketMasterClient {
 	private List<Item> getItemList(JSONArray events) throws JSONException {
 		// Define an empty list of Item objects
 		List<Item> itemList = new ArrayList<>();
+
+		for (int i = 0; i < events.length(); ++i) {
+			// Get the JSON object
+			JSONObject event = events.getJSONObject(i);
+			
+			// Instantiate ItemBuilder class
+			ItemBuilder builder = new ItemBuilder();
+			
+			// Set the fields of the ItemBuilder object
+			if (!event.isNull("id")) {
+				builder.setItemId(event.getString("id"));
+			}
+			if (!event.isNull("name")) {
+				builder.setName(event.getString("name"));
+			}
+			if (!event.isNull("url")) {
+				builder.setUrl(event.getString("url"));
+			}
+			if (!event.isNull("distance")) {
+				builder.setDistance(event.getDouble("distance"));
+			}
+			builder.setAddress(getAddress(event));
+			builder.setCategories(getCategories(event));
+			builder.setImageUrl(getImageUrl(event));
+			
+			// Add the successfully built item to the item list
+			itemList.add(builder.build());
+		}
 
 		return itemList;
 	}
