@@ -12,6 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import external.TicketMasterClient;
+
 /**
  * Servlet implementation class SearchItem
  */
@@ -34,19 +36,14 @@ public class SearchItem extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		if (request.getParameter("username") != null) {
-			String username = request.getParameter("username");
+		double latitude = Double.parseDouble(request.getParameter("lat"));
+		double longitude = Double.parseDouble(request.getParameter("lon"));
 
-			JSONArray array = new JSONArray();
-			try {
-				array.put(new JSONObject().put("username", username));
-				array.put(new JSONObject().put("username", "1234"));
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			RpcHelper.writeJsonArray(response, array);
-		}
+		// Instantiate the TicketMasterClient class
+		TicketMasterClient client = new TicketMasterClient();
+
+		// Write the list of events to the response
+		RpcHelper.writeJsonArray(response, client.search(latitude, longitude, null));
 
 	}
 
