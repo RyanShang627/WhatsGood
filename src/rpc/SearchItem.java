@@ -1,6 +1,7 @@
 package rpc;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,9 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import entity.Item;
 import external.TicketMasterClient;
 
 /**
@@ -41,9 +41,17 @@ public class SearchItem extends HttpServlet {
 
 		// Instantiate the TicketMasterClient class
 		TicketMasterClient client = new TicketMasterClient();
-
-		// Write the list of events to the response
-		RpcHelper.writeJsonArray(response, client.search(latitude, longitude, null));
+		
+		// Obtain the list of Item objects by client's search method
+		List<Item> items = client.search(latitude, longitude, null);
+		JSONArray array = new JSONArray();
+		
+		// Iterate the list and convert all the items to JSON objects
+		for (Item item : items) {
+			array.put(item.toJSONObject());
+		}
+		// Write the JSON list of events to response
+		RpcHelper.writeJsonArray(response, array);
 
 	}
 
