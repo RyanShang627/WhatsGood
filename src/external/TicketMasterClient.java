@@ -21,7 +21,7 @@ import entity.Item;
 import entity.Item.ItemBuilder;
 
 /**
- * The class connects to the TicketMaster API, sends query, and fetches event
+ * This class connects to the TicketMaster API, sends query, and fetches event
  * data.
  * 
  * @author Ryan Shang
@@ -45,7 +45,7 @@ public class TicketMasterClient {
 	 * 
 	 * @return JSONArray The search results
 	 */
-	public JSONArray search(double lat, double lon, String keyword) {
+	public List<Item> search(double lat, double lon, String keyword) {
 		if (keyword == null) {
 			keyword = DEFAULT_KEYWORD;
 		}
@@ -78,7 +78,7 @@ public class TicketMasterClient {
 
 			// return empty JSON array when the request fails
 			if (responseCode != 200) {
-				return new JSONArray();
+				return new ArrayList<>();
 			}
 
 			// Create a BufferedReader to help read text from a character-input stream.
@@ -104,13 +104,13 @@ public class TicketMasterClient {
 			JSONObject obj = new JSONObject(responseBody.toString());
 			if (!obj.isNull("_embedded")) {
 				JSONObject embedded = obj.getJSONObject("_embedded");
-				return embedded.getJSONArray("events");
+				return getItemList(embedded.getJSONArray("events"));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 
-		return new JSONArray();
+		return new ArrayList<>();
 
 	}
 
@@ -130,10 +130,10 @@ public class TicketMasterClient {
 		for (int i = 0; i < events.length(); ++i) {
 			// Get the JSON object
 			JSONObject event = events.getJSONObject(i);
-			
+
 			// Instantiate ItemBuilder class
 			ItemBuilder builder = new ItemBuilder();
-			
+
 			// Set the fields of the ItemBuilder object
 			if (!event.isNull("id")) {
 				builder.setItemId(event.getString("id"));
@@ -150,7 +150,7 @@ public class TicketMasterClient {
 			builder.setAddress(getAddress(event));
 			builder.setCategories(getCategories(event));
 			builder.setImageUrl(getImageUrl(event));
-			
+
 			// Add the successfully built item to the item list
 			itemList.add(builder.build());
 		}
