@@ -9,7 +9,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,7 +176,7 @@ public class TicketMasterClient {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * This helper method obtains the URL of the image of an event
 	 * 
@@ -193,6 +195,30 @@ public class TicketMasterClient {
 			}
 		}
 		return "";
+	}
+
+	/**
+	 * This helper method obtains the categories of an event
+	 * 
+	 * @param event Event in JSON Object format
+	 * @return Set<String> The categories of the event
+	 * @throws JSONException
+	 */
+	private Set<String> getCategories(JSONObject event) throws JSONException {
+		Set<String> categories = new HashSet<>();
+		if (!event.isNull("classifications")) {
+			JSONArray classifications = event.getJSONArray("classifications");
+			for (int i = 0; i < classifications.length(); ++i) {
+				JSONObject classification = classifications.getJSONObject(i);
+				if (!classification.isNull("segment")) {
+					JSONObject segment = classification.getJSONObject("segment");
+					if (!segment.isNull("name")) {
+						categories.add(segment.getString("name"));
+					}
+				}
+			}
+		}
+		return categories;
 	}
 
 	/**
