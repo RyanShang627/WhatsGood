@@ -31,9 +31,14 @@ public class SearchItem extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter writer = response.getWriter();
 		
-		writer.println("<html><body>");
-		writer.println("<h1>Hello World</h1>");
-		writer.println("</body></html>");
+		if (request.getParameter("username") != null) {
+			String username = request.getParameter("username");
+			
+			writer.println("<html><body>");
+			writer.println("<h1>Hello " + username + "</h1>");
+			writer.println("</body></html>");
+		}
+
 		
 		writer.close();	
 	}
