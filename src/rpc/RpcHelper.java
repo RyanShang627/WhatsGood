@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RpcHelper {
-	/*
+	/**
 	 * Writes a JSON Array to HTTP response
 	 * 
 	 * @param response This is the HTTP response
@@ -28,7 +28,7 @@ public class RpcHelper {
 		out.close();
 	}
 
-	/*
+	/**
 	 * Writes a JSON Object to HTTP response
 	 * 
 	 * @param response This is the HTTP response

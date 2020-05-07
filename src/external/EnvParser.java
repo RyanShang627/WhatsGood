@@ -6,7 +6,7 @@ import io.github.cdimascio.dotenv.Dotenv;
  * Helper class to parse the environment variables
  */
 public class EnvParser {
-	/*
+	/**
 	 * This method obtain the API key of TicketMaster from environment variable
 	 * @return String The API key
 	 */
