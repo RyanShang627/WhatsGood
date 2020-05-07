@@ -98,9 +98,17 @@ public class Item {
 		return distance;
 	}
 
+	/**
+	 * This method converts the Item JAVA class to a JSON Object
+	 * 
+	 * @return JSONObject The event item in JSON Object format
+	 */
 	public JSONObject toJSONObject() {
+		// Create an empty JSON object
 		JSONObject obj = new JSONObject();
+		
 		try {
+			// assign the fields to the JSON object
 			obj.put("item_id", itemId);
 			obj.put("name", name);
 			obj.put("rating", rating);
