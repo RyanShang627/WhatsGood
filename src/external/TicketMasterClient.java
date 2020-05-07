@@ -8,10 +8,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import entity.Item;
 
 /**
  * The class connects to the TicketMaster API, sends query, and fetches event
@@ -105,6 +109,22 @@ public class TicketMasterClient {
 
 		return new JSONArray();
 
+	}
+
+	// Convert JSONArray to a list of item objects.
+	/**
+	 * This method converts a list of events from a JSON array to a list of Item
+	 * instances
+	 * 
+	 * @param events The list of event
+	 * @return List<Item> The list of Item objects
+	 * @throws JSONException
+	 */
+	private List<Item> getItemList(JSONArray events) throws JSONException {
+		// Define an empty list of Item objects
+		List<Item> itemList = new ArrayList<>();
+
+		return itemList;
 	}
 
 	/**
