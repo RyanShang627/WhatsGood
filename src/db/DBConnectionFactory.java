@@ -1,5 +1,7 @@
 package db;
 
+import db.mysql.MySQLConnection;
+
 /**
  * This class helps create different database instances
  * 
@@ -22,8 +24,7 @@ public class DBConnectionFactory {
 	public static DBConnection getConnection(String db) throws IllegalArgumentException {
 		switch (db) {
 		case "mysql":
-			// return new MySQLConnection();
-			return null;
+			 return new MySQLConnection();
 		case "mongodb":
 			// return new MongoDBConnection();
 			return null;
