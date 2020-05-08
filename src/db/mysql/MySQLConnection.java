@@ -3,11 +3,14 @@ package db.mysql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import db.DBConnection;
 import entity.Item;
+import entity.Item.ItemBuilder;
 import external.TicketMasterClient;
 
 /**
@@ -77,7 +80,7 @@ public class MySQLConnection implements DBConnection {
 			System.err.println("MySQL connection failed");
 			return;
 		}
-		
+
 		try {
 			// Delete the row from history table based on userid and itemid
 			String sql = "DELETE FROM history WHERE user_id = ? AND item_id = ?";
@@ -102,8 +105,47 @@ public class MySQLConnection implements DBConnection {
 
 	@Override
 	public Set<Item> getFavoriteItems(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		if (conn == null) {
+			return new HashSet<>();
+		}
+
+		// prepare the set of favorite items
+		Set<Item> favoriteItems = new HashSet<>();
+		Set<String> itemIds = getFavoriteItemIds(userId);
+
+		try {
+			// Fetch the rows from items table based on the item id
+			String sql = "SELECT * FROM items WHERE item_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			for (String itemId : itemIds) {
+				stmt.setString(1, itemId);
+
+				ResultSet rs = stmt.executeQuery();
+
+				ItemBuilder builder = new ItemBuilder();
+
+				while (rs.next()) {
+					// Build the favorite item
+					builder.setItemId(rs.getString("item_id"));
+					builder.setName(rs.getString("name"));
+					builder.setAddress(rs.getString("address"));
+					builder.setImageUrl(rs.getString("image_url"));
+					builder.setUrl(rs.getString("url"));
+					builder.setCategories(getCategories(itemId));
+					builder.setDistance(rs.getDouble("distance"));
+					builder.setRating(rs.getDouble("rating"));
+
+					// Add the favorite item to the result set
+					favoriteItems.add(builder.build());
+				}
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return favoriteItems;
+
 	}
 
 	@Override
