@@ -1,8 +1,10 @@
 package rpc;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
@@ -15,16 +17,14 @@ import org.json.JSONObject;
  * @date 2020-May-07 11:32:29 AM
  */
 public class RpcHelper {
+
 	/**
 	 * Writes a JSON Array to HTTP response
 	 * 
 	 * @param response This is the HTTP response
-	 * 
 	 * @param array    This is the JSON array to be added to HTTP response
-	 * 
 	 * @return Nothing
-	 * 
-	 * @exception IOException On input error
+	 * @throws IOException
 	 */
 	public static void writeJsonArray(HttpServletResponse response, JSONArray array) throws IOException {
 		response.setContentType("application/json");
@@ -38,12 +38,9 @@ public class RpcHelper {
 	 * Writes a JSON Object to HTTP response
 	 * 
 	 * @param response This is the HTTP response
-	 * 
 	 * @param obj      This is the JSON array to be added to HTTP response
-	 * 
 	 * @return Nothing
-	 * 
-	 * @exception IOException On input error
+	 * @throws IOException
 	 */
 	public static void writeJSONObject(HttpServletResponse response, JSONObject obj) throws IOException {
 		response.setContentType("application/json");
@@ -51,6 +48,28 @@ public class RpcHelper {
 		PrintWriter out = response.getWriter();
 		out.print(obj);
 		out.close();
+	}
+
+	/**
+	 * This method parses a JSON Object from HTTP request
+	 * 
+	 * @param request The HTTP request
+	 * @return JSONObject
+	 */
+	public static JSONObject readJSONObject(HttpServletRequest request) {
+		StringBuilder sBuilder = new StringBuilder();
+		try (BufferedReader reader = request.getReader()) {
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				sBuilder.append(line);
+			}
+			return new JSONObject(sBuilder.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new JSONObject();
 	}
 
 }

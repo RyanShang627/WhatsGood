@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 
+import db.DBConnection;
+import db.DBConnectionFactory;
 import entity.Item;
-import external.TicketMasterClient;
 
 /**
  * Servlet implementation class SearchItem
@@ -36,22 +37,30 @@ public class SearchItem extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		// Get parameters from the HTTP request
 		double latitude = Double.parseDouble(request.getParameter("lat"));
 		double longitude = Double.parseDouble(request.getParameter("lon"));
+		String term = request.getParameter("term"); // Term can be empty or null.
 
-		// Instantiate the TicketMasterClient class
-		TicketMasterClient client = new TicketMasterClient();
-		
-		// Obtain the list of Item objects by client's search method
-		List<Item> items = client.search(latitude, longitude, null);
-		JSONArray array = new JSONArray();
-		
-		// Iterate the list and convert all the items to JSON objects
-		for (Item item : items) {
-			array.put(item.toJSONObject());
+		// Instantiate Database connection
+		DBConnection connection = DBConnectionFactory.getConnection();
+
+		// Get the event items searching results from database connection and write them
+		// to HTTP response
+		try {
+			List<Item> items = connection.searchItems(latitude, longitude, term);
+			JSONArray array = new JSONArray();
+			for (Item item : items) {
+				array.put(item.toJSONObject());
+			}
+			RpcHelper.writeJsonArray(response, array);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// Close the db connection
+			connection.close();
 		}
-		// Write the JSON list of events to response
-		RpcHelper.writeJsonArray(response, array);
 
 	}
 

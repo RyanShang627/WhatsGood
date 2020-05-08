@@ -38,11 +38,8 @@ public class TicketMasterClient {
 	 * keyword. Finally it returns a JSON array of events.
 	 * 
 	 * @param lat     Latitude of the event
-	 * 
 	 * @param lon     Longitude of the event
-	 * 
 	 * @param keyword Keyword of the event
-	 * 
 	 * @return JSONArray The search results
 	 */
 	public List<Item> search(double lat, double lon, String keyword) {
