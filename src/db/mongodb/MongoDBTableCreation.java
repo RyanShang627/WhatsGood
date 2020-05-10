@@ -36,6 +36,7 @@ public class MongoDBTableCreation {
 
 		// Step 3, Create new collections
 		IndexOptions indexOptions = new IndexOptions().unique(true);
+		// "new Document()" is used to create a JSON format: { }
 		db.getCollection("users").createIndex(new Document("user_id", 1), indexOptions); // "1" means ascending order
 		db.getCollection("items").createIndex(new Document("item_id", 1), indexOptions);
 
