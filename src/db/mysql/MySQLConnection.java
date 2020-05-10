@@ -216,6 +216,8 @@ public class MySQLConnection implements DBConnection {
 
 		try {
 			// Define a SQL template that insert values into items table
+			// "?" is a placeholder that prevents SQL injection, "IGNORE" means doing
+			// nothing when there is duplicated item_id
 			String sql = "INSERT IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 			// Prepare the SQL statement
