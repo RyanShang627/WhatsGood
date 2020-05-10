@@ -9,6 +9,7 @@ import com.mongodb.client.MongoDatabase;
 
 import db.DBConnection;
 import entity.Item;
+import external.TicketMasterClient;
 
 public class MongoDBConnection implements DBConnection {
 
@@ -60,13 +61,23 @@ public class MongoDBConnection implements DBConnection {
 
 	@Override
 	public List<Item> searchItems(double lat, double lon, String term) {
-		// TODO Auto-generated method stub
-		return null;
+		// Create a TicketMasterClient instance
+		TicketMasterClient ticketMasterClient = new TicketMasterClient();
+		// Obtain the event items
+		List<Item> items = ticketMasterClient.search(lat, lon, term);
+		// Save all the items to the MongoDB database
+		for (Item item : items) {
+			saveItem(item);
+		}
+
+		return items;
 	}
 
 	@Override
 	public void saveItem(Item item) {
-		// TODO Auto-generated method stub
+		if (db == null) {
+			return;
+		}
 
 	}
 
