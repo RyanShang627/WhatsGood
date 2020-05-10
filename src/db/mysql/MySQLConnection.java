@@ -111,6 +111,7 @@ public class MySQLConnection implements DBConnection {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, userId);
 
+			// The ResultSet is a container having several rows which meets the requirements
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -216,6 +217,8 @@ public class MySQLConnection implements DBConnection {
 
 		try {
 			// Define a SQL template that insert values into items table
+			// "?" is a placeholder that prevents SQL injection, "IGNORE" means doing
+			// nothing when there is duplicated item_id
 			String sql = "INSERT IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 			// Prepare the SQL statement
