@@ -3,6 +3,9 @@ package db.mongodb;
 import java.util.List;
 import java.util.Set;
 
+import org.bson.Document;
+
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
@@ -77,6 +80,18 @@ public class MongoDBConnection implements DBConnection {
 	public void saveItem(Item item) {
 		if (db == null) {
 			return;
+		}
+
+		// Obtain the iterable result
+		FindIterable<Document> iterable = db.getCollection("items").find(new Document("item_id", item.getItemId()));
+
+		// Save item to db when this item does not exist
+		if (iterable.first() == null) {
+			db.getCollection("items")
+					.insertOne(new Document().append("item_id", item.getItemId()).append("distance", item.getDistance())
+							.append("name", item.getName()).append("address", item.getAddress())
+							.append("url", item.getUrl()).append("image_url", item.getImageUrl())
+							.append("rating", item.getRating()).append("categories", item.getCategories()));
 		}
 
 	}
