@@ -37,7 +37,7 @@ public class SearchItem extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// Get parameters from the HTTP request
+		// Get parameters from the url of the HTTP request
 		double latitude = Double.parseDouble(request.getParameter("lat"));
 		double longitude = Double.parseDouble(request.getParameter("lon"));
 		String term = request.getParameter("term"); // Term can be empty or null.
