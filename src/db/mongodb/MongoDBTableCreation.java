@@ -25,9 +25,9 @@ public class MongoDBTableCreation {
 	 * @throws ParseException
 	 */
 	public static void main(String[] args) throws ParseException {
-		
+
 		// Step 1, Connect to MongoDB
-		MongoClient mongoClient = MongoClients.create();  // Create client
+		MongoClient mongoClient = MongoClients.create(); // Create client
 		MongoDatabase db = mongoClient.getDatabase(MongoDBUtil.DB_NAME);
 
 		// Step 2, Remove old collections from the database
@@ -36,16 +36,17 @@ public class MongoDBTableCreation {
 
 		// Step 3, Create new collections
 		IndexOptions indexOptions = new IndexOptions().unique(true);
-		db.getCollection("users").createIndex(new Document("user_id", 1), indexOptions);
+		db.getCollection("users").createIndex(new Document("user_id", 1), indexOptions); // "1" means ascending order
 		db.getCollection("items").createIndex(new Document("item_id", 1), indexOptions);
 
 		// Step 4, Insert fake user data and create index.
 		db.getCollection("users").insertOne(
 				new Document().append("user_id", "1111").append("password", "3229c1097c00d497a0fd282d586be050")
 						.append("first_name", "John").append("last_name", "Smith"));
-		
+
 		// Close the MongoDB connection
 		mongoClient.close();
+		
 		System.out.println("Import is done successfully.");
 
 	}
