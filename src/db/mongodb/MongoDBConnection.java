@@ -3,15 +3,29 @@ package db.mongodb;
 import java.util.List;
 import java.util.Set;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
+
 import db.DBConnection;
 import entity.Item;
 
 public class MongoDBConnection implements DBConnection {
 
+	private MongoClient mongoClient;
+	private MongoDatabase db;
+
+	public MongoDBConnection() {
+		// Connects to local mongodb server.
+		mongoClient = MongoClients.create();
+		db = mongoClient.getDatabase(MongoDBUtil.DB_NAME);
+	}
+
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
-
+		if (mongoClient != null) {
+			mongoClient.close();
+		}
 	}
 
 	@Override
