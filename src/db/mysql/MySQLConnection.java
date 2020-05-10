@@ -111,6 +111,7 @@ public class MySQLConnection implements DBConnection {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, userId);
 
+			// The ResultSet is a container having several rows which meets the requirements
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
