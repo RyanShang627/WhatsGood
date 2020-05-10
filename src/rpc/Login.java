@@ -68,8 +68,34 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+
+		// Create the database connection
+		DBConnection connection = DBConnectionFactory.getConnection();
+		try {
+			// Fetch the JSON object (input) from the body of the HTTP request
+			JSONObject input = RpcHelper.readJSONObject(request);
+			// Get the userId and password
+			String userId = input.getString("user_id");
+			String password = input.getString("password");
+
+			JSONObject obj = new JSONObject();
+
+			// write the OK status to response when the user login is successfully verified
+			if (connection.verifyLogin(userId, password)) {
+				HttpSession session = request.getSession();
+				session.setAttribute("user_id", userId);
+				session.setMaxInactiveInterval(600);
+				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
+			} else {
+				obj.put("status", "User Doesn't Exist");
+				response.setStatus(401);
+			}
+			RpcHelper.writeJSONObject(response, obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			connection.close();
+		}
 	}
 
 }
