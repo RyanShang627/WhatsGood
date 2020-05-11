@@ -1,5 +1,8 @@
 package db.mongodb;
 
+// "import static" allows to direclty use "eq" as a method
+// otherwise, it has to be called like: "Filters.eq()" when:
+// import com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.util.HashSet;
@@ -197,7 +200,7 @@ public class MongoDBConnection implements DBConnection {
 	public boolean registerUser(String userId, String password, String firstname, String lastname) {
 		// Try to fetch the legal result
 		FindIterable<Document> iterable = db.getCollection("users").find(eq("user_id", userId));
-		
+
 		// Insert the new user to MongoDB only if it does not exist
 		if (iterable.first() == null) {
 			db.getCollection("users").insertOne(new Document().append("first_name", firstname)
