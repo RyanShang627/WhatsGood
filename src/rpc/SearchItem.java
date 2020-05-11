@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 
@@ -36,6 +37,13 @@ public class SearchItem extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		// Allow access only if the session exists
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			response.setStatus(403);  // 403 means "Unauthorized"
+			return;
+		}
 
 		// Get parameters from the url of the HTTP request
 		double latitude = Double.parseDouble(request.getParameter("lat"));
