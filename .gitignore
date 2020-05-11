@@ -70,3 +70,7 @@ pom.xml.tag
 
 # Thumbnails
 ._*
+
+# Maven
+log/
+target/
