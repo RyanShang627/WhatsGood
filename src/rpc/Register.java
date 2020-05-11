@@ -29,16 +29,6 @@ public class Register extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -61,13 +51,14 @@ public class Register extends HttpServlet {
 				response.setStatus(400);
 			} else {
 				// Get the userid, password
-				String userId = input.getString("user_id");;
+				String userId = input.getString("user_id");
+				;
 				String password = input.getString("password");
 
 				// Get the first name and last name if exist
 				String firstname = "";
 				String lastname = "";
-				
+
 				if (input.has("first_name")) {
 					firstname = input.getString("first_name");
 				}
