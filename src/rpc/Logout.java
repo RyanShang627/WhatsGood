@@ -36,7 +36,8 @@ public class Logout extends HttpServlet {
 			// Destroy existing session
 			session.invalidate();
 		}
-		response.sendRedirect("index.html");
+		// Demand the front-end to refresh/reset the view
+		response.setStatus(205);
 
 	}
 
