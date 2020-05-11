@@ -198,7 +198,7 @@ public class MongoDBConnection implements DBConnection {
 		// Try to fetch the legal result
 		FindIterable<Document> iterable = db.getCollection("users").find(eq("user_id", userId));
 		
-		// Insert the new user to MongoDB when it does not exist
+		// Insert the new user to MongoDB only if it does not exist
 		if (iterable.first() == null) {
 			db.getCollection("users").insertOne(new Document().append("first_name", firstname)
 					.append("last_name", lastname).append("password", password).append("user_id", userId));

@@ -84,6 +84,8 @@ public class Login extends HttpServlet {
 			// write the OK status and user's fullname to response when the user login is successfully verified
 			if (connection.verifyLogin(userId, password)) {
 				HttpSession session = request.getSession();
+				
+				// Store the user_id into the session attribute when login
 				session.setAttribute("user_id", userId);
 				session.setMaxInactiveInterval(600);
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
