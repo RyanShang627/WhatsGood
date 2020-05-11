@@ -28,7 +28,6 @@ public class SearchItem extends HttpServlet {
 	 */
 	public SearchItem() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -37,11 +36,70 @@ public class SearchItem extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
+// 		***************** HTML *************
+//		response.setContentType("text/html");
+//		PrintWriter writer = response.getWriter();
+//		if (request.getParameter("username") != null) {
+//			String username = request.getParameter("username"); 
+//			
+//			writer.println("<html><body>");
+//			writer.println("<h1>Hello " + username + "</h1>");
+//			writer.println("</body></html>");
+//			writer.close();
+//		}
+
+//		***************  JSON   *************
+//		response.setContentType("application/json");
+//		PrintWriter writer = response.getWriter();
+//		if (request.getParameter("username") != null) {
+//			String username = request.getParameter("username");
+//			JSONObject obj = new JSONObject();
+//			try {
+//				obj.put("username", username);
+//			} catch (JSONException e) {
+//				e.printStackTrace();
+//			}
+//			writer.print(obj);
+//		}
+//		writer.close();
+
+//		***************  JSON ARRAY   *************
+//		response.setContentType("application/json");
+//		PrintWriter writer = response.getWriter();
+
+//		JSONArray array = new JSONArray();
+//		try {
+//			array.put(new JSONObject().put("username", "abcde"));
+//		} catch (JSONException e1) {
+//			e1.printStackTrace();
+//		}
+//		try {
+//			array.put(new JSONObject().put("username", "1234"));
+//		} catch (JSONException e1) {
+//			e1.printStackTrace();
+//		}
+
+//		writer.print(array);
+//		writer.close();
+//	}
+
+//		************   using RpcHelper  ***************
+//		JSONArray array = new JSONArray();
+//		try {
+//			array.put(new JSONObject().put("username", "abcd").put("address", "San Francisco").put("time", "01/01/2017"));
+//			array.put(new JSONObject().put("username", "1234").put("address", "San Jose").put("time", "01/02/2017"));
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+//		RpcHelper.writeJsonArray(response, array);
+//		
+//	}
+
 		// Allow access only if the session exists
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			response.setStatus(403);  // 403 means "Unauthorized"
+			response.setStatus(403); // 403 means "Authorization error" <=> No access to the service
 			return;
 		}
 
@@ -78,7 +136,6 @@ public class SearchItem extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

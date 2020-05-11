@@ -32,7 +32,6 @@ public class ItemHistory extends HttpServlet {
 	 */
 	public ItemHistory() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -45,7 +44,7 @@ public class ItemHistory extends HttpServlet {
 		// Allow access only if the session exists
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			response.setStatus(403); // 403 means "Unauthorized"
+			response.setStatus(403); // 403 means "Authorization error" <=> No access to the service
 			return;
 		}
 
@@ -84,7 +83,7 @@ public class ItemHistory extends HttpServlet {
 		// Allow access only if the session exists
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			response.setStatus(403); // 403 means "Unauthorized"
+			response.setStatus(403); // 403 means "Authorization error" <=> No access to the service
 			return;
 		}
 
@@ -130,7 +129,7 @@ public class ItemHistory extends HttpServlet {
 		// Allow access only if the session exists
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			response.setStatus(403); // 403 means "Unauthorized"
+			response.setStatus(403); // 403 means "Authorization error" <=> No access to the service
 			return;
 		}
 

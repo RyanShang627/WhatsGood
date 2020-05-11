@@ -32,7 +32,8 @@ public class Item {
 	 * @return Item An instance of Item class
 	 */
 	private Item(ItemBuilder builder) {
-		// assign the fields from builder to item
+		// Assign the fields from builder to item
+		// Note: "builder.xxx" is the member of the static class of Item class
 		this.itemId = builder.itemId;
 		this.name = builder.name;
 		this.rating = builder.rating;
@@ -117,7 +118,7 @@ public class Item {
 	}
 
 	/**
-	 * This method converts the Item JAVA class to a JSON Object
+	 * This method converts the JAVA Item object to a JSON Object
 	 * 
 	 * @return JSONObject The event item in JSON Object format
 	 */
@@ -131,7 +132,7 @@ public class Item {
 			obj.put("name", name);
 			obj.put("rating", rating);
 			obj.put("address", address);
-			obj.put("categories", new JSONArray(categories));
+			obj.put("categories", new JSONArray(categories)); // ["", ""]
 			obj.put("image_url", imageUrl);
 			obj.put("url", url);
 			obj.put("distance", distance);
@@ -148,13 +149,14 @@ public class Item {
 	 * 
 	 * Example to instantiate Item class:
 	 * 
-	 * Item item = new ItemBuilder().setItemId().setName().set....build();
+	 * Item item = new ItemBuilder().setItemId().setName().set...().build();
 	 * 
 	 * @author Ryan Shang
 	 * @date 2020-May-07 12:13:05 PM
 	 *
 	 */
 	public static class ItemBuilder {
+
 		// The same fields of Item class
 		private String itemId;
 		private String name;

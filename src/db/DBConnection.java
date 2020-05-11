@@ -77,7 +77,7 @@ public interface DBConnection {
 	public void saveItem(Item item);
 
 	/**
-	 * Get full name of a user. (Only needed for demo and extension).
+	 * Get full name of a user.
 	 * 
 	 * @param userId
 	 * @return full name of the user
@@ -85,8 +85,7 @@ public interface DBConnection {
 	public String getFullname(String userId);
 
 	/**
-	 * Return whether the credential is correct. (Only needed for demo and
-	 * extension)
+	 * Return whether the credential is correct.
 	 * 
 	 * @param userId
 	 * @param password

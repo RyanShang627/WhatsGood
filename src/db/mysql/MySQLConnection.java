@@ -149,7 +149,7 @@ public class MySQLConnection implements DBConnection {
 
 				ItemBuilder builder = new ItemBuilder();
 
-				while (rs.next()) {
+				while (rs.next()) { // read result set (might > 1)
 					// Build the favorite item
 					builder.setItemId(rs.getString("item_id"));
 					builder.setName(rs.getString("name"));
@@ -264,6 +264,7 @@ public class MySQLConnection implements DBConnection {
 		String name = "";
 
 		try {
+			// "?" prevents the SQL injection issue
 			String sql = "SELECT first_name, last_name FROM users WHERE user_id = ?";
 
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -324,9 +325,9 @@ public class MySQLConnection implements DBConnection {
 			ps.setString(2, password);
 			ps.setString(3, firstname);
 			ps.setString(4, lastname);
-			
+
 			return ps.executeUpdate() == 1;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

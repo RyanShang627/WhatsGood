@@ -47,8 +47,8 @@ public class TicketMasterClient {
 			keyword = DEFAULT_KEYWORD;
 		}
 
-		// Encode the keyword input
 		try {
+			// Encode the keyword input
 			keyword = URLEncoder.encode(keyword, "UTF-8"); // "Ryan Shang" => "Ryan%20Shang"
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -102,7 +102,7 @@ public class TicketMasterClient {
 
 		try {
 			// Extract events array only
-			JSONObject obj = new JSONObject(responseBody.toString());
+			JSONObject obj = new JSONObject(responseBody.toString()); // Guarantee the string is in json format
 			if (!obj.isNull("_embedded")) {
 				JSONObject embedded = obj.getJSONObject("_embedded");
 				return getItemList(embedded.getJSONArray("events"));
@@ -136,7 +136,7 @@ public class TicketMasterClient {
 			ItemBuilder builder = new ItemBuilder();
 
 			// Set the fields of the ItemBuilder object
-			if (!event.isNull("id")) {
+			if (!event.isNull("id")) {  // check if the event has the key "id"
 				builder.setItemId(event.getString("id"));
 			}
 			if (!event.isNull("name")) {
@@ -160,7 +160,7 @@ public class TicketMasterClient {
 	}
 
 	/**
-	 * This helper method obtains the address of an event
+	 * This helper method obtains the address of an event. The address is buried deep inside the original response from TicketMaster API.
 	 * 
 	 * @param event Event in JSON Object format
 	 * @return String The address of the event
@@ -252,15 +252,37 @@ public class TicketMasterClient {
 	}
 
 	/**
-	 * Main entry to test TicketMasterClient.
+	 * This method is used for testing purpose only. It sends the search query to
+	 * the TicketMaster server and fetches the events, then it prints all the
+	 * returned events to console.
+	 * 
+	 * @param lat The latitude of the event
+	 * @param lon The longitude of the event
+	 * @return Nothing
 	 */
-	public static void main(String[] args) {
-		TicketMasterClient client = new TicketMasterClient();
-		List<Item> events = client.search(37.38, -122.08, null);
+	private void testSearch(double lat, double lon) {
+
+		List<Item> events = search(lat, lon, null);
 
 		for (Item event : events) {
 			System.out.println(event.toJSONObject());
 		}
+	}
+
+	/**
+	 * Main entry to test TicketMasterClient (send query to TicketMaster server).
+	 */
+	public static void main(String[] args) {
+		TicketMasterClient client = new TicketMasterClient();
+
+		// Mountain View, CA
+		client.testSearch(37.38, -122.08);
+
+		// London, UK
+		// client.testSearch(51.503364, -0.12);
+
+		// Houston, TX
+		// client.testSearch(29.682684, -95.29541);
 
 	}
 
