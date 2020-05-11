@@ -87,6 +87,7 @@ public class Login extends HttpServlet {
 
 				// Store the user_id into the session attribute when login
 				session.setAttribute("user_id", userId);
+				// set the valid time of the seesion to 10 mins
 				session.setMaxInactiveInterval(600);
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
 			} else {
