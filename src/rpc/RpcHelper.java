@@ -51,7 +51,7 @@ public class RpcHelper {
 	}
 
 	/**
-	 * This method parses a JSON Object from HTTP request
+	 * This method parses a JSON Object from HTTP request's body
 	 * 
 	 * @param request The HTTP request
 	 * @return JSONObject

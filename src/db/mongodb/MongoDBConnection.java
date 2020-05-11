@@ -90,18 +90,18 @@ public class MongoDBConnection implements DBConnection {
 		}
 
 		Set<Item> favoriteItems = new HashSet<>();
-		
+
 		// Obtain the item ids based on the user id
 		Set<String> itemIds = getFavoriteItemIds(userId);
-		
+
 		// For every item id, do the search
 		for (String itemId : itemIds) {
 			FindIterable<Document> iterable = db.getCollection("items").find(eq("item_id", itemId));
 			if (iterable.first() != null) {
-				
+
 				// Define the first element of the iterable
 				Document doc = iterable.first();
-				
+
 				// Build the item object
 				ItemBuilder builder = new ItemBuilder();
 				builder.setItemId(doc.getString("item_id"));
@@ -112,7 +112,7 @@ public class MongoDBConnection implements DBConnection {
 				builder.setRating(doc.getDouble("rating"));
 				builder.setDistance(doc.getDouble("distance"));
 				builder.setCategories(getCategories(itemId));
-				
+
 				// Add the built item object to favorite items
 				favoriteItems.add(builder.build());
 			}
@@ -128,7 +128,7 @@ public class MongoDBConnection implements DBConnection {
 			return new HashSet<>();
 		}
 		Set<String> categories = new HashSet<>();
-		
+
 		FindIterable<Document> iterable = db.getCollection("items").find(eq("item_id", itemId));
 
 		if (iterable.first() != null && iterable.first().containsKey("categories")) {
@@ -176,13 +176,34 @@ public class MongoDBConnection implements DBConnection {
 
 	@Override
 	public String getFullname(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		FindIterable<Document> iterable = db.getCollection("users").find(eq("user_id", userId));
+		Document document = iterable.first();
+		String firstName = document.getString("first_name");
+		String lastName = document.getString("last_name");
+
+		return firstName + " " + lastName;
 	}
 
 	@Override
 	public boolean verifyLogin(String userId, String password) {
-		// TODO Auto-generated method stub
+		FindIterable<Document> iterable = db.getCollection("users").find(eq("user_id", userId));
+		Document document = iterable.first();
+
+		// Check whether the input password is equal to the saved password
+		return document.getString("password").equals(password);
+	}
+
+	@Override
+	public boolean registerUser(String userId, String password, String firstname, String lastname) {
+		// Try to fetch the legal result
+		FindIterable<Document> iterable = db.getCollection("users").find(eq("user_id", userId));
+		
+		// Insert the new user to MongoDB only if it does not exist
+		if (iterable.first() == null) {
+			db.getCollection("users").insertOne(new Document().append("first_name", firstname)
+					.append("last_name", lastname).append("password", password).append("user_id", userId));
+			return true;
+		}
 		return false;
 	}
 

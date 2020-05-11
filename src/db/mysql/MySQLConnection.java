@@ -55,7 +55,7 @@ public class MySQLConnection implements DBConnection {
 	@Override
 	public void setFavoriteItems(String userId, List<String> itemIds) {
 		if (conn == null) {
-			System.err.println("MySQL connection failed");
+			System.err.println("DB connection failed");
 			return;
 		}
 
@@ -78,7 +78,7 @@ public class MySQLConnection implements DBConnection {
 	@Override
 	public void unsetFavoriteItems(String userId, List<String> itemIds) {
 		if (conn == null) {
-			System.err.println("MySQL connection failed");
+			System.err.println("DB connection failed");
 			return;
 		}
 
@@ -101,6 +101,7 @@ public class MySQLConnection implements DBConnection {
 	@Override
 	public Set<String> getFavoriteItemIds(String userId) {
 		if (conn == null) {
+			System.err.println("DB connection failed");
 			return new HashSet<>();
 		}
 
@@ -129,6 +130,7 @@ public class MySQLConnection implements DBConnection {
 	@Override
 	public Set<Item> getFavoriteItems(String userId) {
 		if (conn == null) {
+			System.err.println("DB connection failed");
 			return new HashSet<>();
 		}
 
@@ -174,6 +176,7 @@ public class MySQLConnection implements DBConnection {
 	@Override
 	public Set<String> getCategories(String itemId) {
 		if (conn == null) {
+			System.err.println("DB connection failed");
 			return null;
 		}
 		Set<String> categories = new HashSet<>();
@@ -211,7 +214,7 @@ public class MySQLConnection implements DBConnection {
 	@Override
 	public void saveItem(Item item) {
 		if (conn == null) {
-			System.err.println("MySQL database connection failed");
+			System.err.println("DB connection failed");
 			return;
 		}
 
@@ -253,13 +256,80 @@ public class MySQLConnection implements DBConnection {
 
 	@Override
 	public String getFullname(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		if (conn == null) {
+			System.err.println("DB connection failed");
+			return null;
+		}
+
+		String name = "";
+
+		try {
+			String sql = "SELECT first_name, last_name FROM users WHERE user_id = ?";
+
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+
+			ResultSet rs = statement.executeQuery();
+
+			// Build the full name of the user
+			while (rs.next()) {
+				name = rs.getString("first_name") + " " + rs.getString("last_name");
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		return name;
 	}
 
 	@Override
 	public boolean verifyLogin(String userId, String password) {
-		// TODO Auto-generated method stub
+		if (conn == null) {
+			System.err.println("DB connection failed");
+			return false;
+		}
+		try {
+			String sql = "SELECT user_id FROM users WHERE user_id = ? AND password = ?";
+
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, userId);
+			stmt.setString(2, password);
+
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				System.out.println("Login verify success");
+				return true;
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("Login verify failed");
+		return false;
+	}
+
+	@Override
+	public boolean registerUser(String userId, String password, String firstname, String lastname) {
+		if (conn == null) {
+			System.err.println("DB connection failed");
+			return false;
+		}
+
+		try {
+			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, userId);
+			ps.setString(2, password);
+			ps.setString(3, firstname);
+			ps.setString(4, lastname);
+			
+			return ps.executeUpdate() == 1;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
