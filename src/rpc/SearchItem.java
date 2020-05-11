@@ -99,7 +99,7 @@ public class SearchItem extends HttpServlet {
 		// Allow access only if the session exists
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			response.setStatus(403); // 403 means "Authorization error" <=> No access
+			response.setStatus(403); // 403 means "Authorization error" <=> No access to the service
 			return;
 		}
 

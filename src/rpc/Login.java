@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
 			} else {
 				obj.put("status", "Invalid Session");
-				response.setStatus(403);  // 403 means "Authorization error" <=> No access
+				response.setStatus(403); // 403 means "Authorization error" <=> No access to the service
 			}
 			// write the JSON object to the response
 			RpcHelper.writeJSONObject(response, obj);
@@ -74,24 +74,25 @@ public class Login extends HttpServlet {
 		try {
 			// Fetch the JSON object (input) from the body of the HTTP request
 			JSONObject input = RpcHelper.readJSONObject(request);
-			
+
 			// Get the userId and password
 			String userId = input.getString("user_id");
 			String password = input.getString("password");
 
 			JSONObject obj = new JSONObject();
 
-			// write the OK status and user's fullname to response when the user login is successfully verified
+			// write the OK status and user's fullname to response when the user login is
+			// successfully verified
 			if (connection.verifyLogin(userId, password)) {
 				HttpSession session = request.getSession();
-				
+
 				// Store the user_id into the session attribute when login
 				session.setAttribute("user_id", userId);
 				session.setMaxInactiveInterval(600);
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
 			} else {
 				obj.put("status", "User Doesn't Exist");
-				response.setStatus(401);  // 401: Authentication error <=> Login failure
+				response.setStatus(401); // 401: Authentication error <=> Login failure (e.g. wrong password)
 			}
 			RpcHelper.writeJSONObject(response, obj);
 		} catch (Exception e) {
