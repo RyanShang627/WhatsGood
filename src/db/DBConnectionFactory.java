@@ -12,7 +12,7 @@ import db.mysql.MySQLConnection;
  */
 public class DBConnectionFactory {
 	// This should change based on the pipeline.
-	private static final String DEFAULT_DB = "mysql";
+	private static final String DEFAULT_DB = "mongodb";
 
 	/**
 	 * This method obtains the database connection instance based on the name of the
