@@ -15,11 +15,13 @@ public class MySQLTableCreation {
 	// Run this as Java application to reset db schema.
 	public static void main(String[] args) {
 		try {
+
 			// Step 1 Connect to MySQL.
 			System.out.println("Connecting to " + MySQLDBUtil.URL);
-			// Force the JVM to recognize and load the "com.mysql.cj.jdbc.Driver" class
+			// Force the JVM to identify and load the "com.mysql.cj.jdbc.Driver" class
+			// then create the object of the driver class
 			Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
-			// Build MySQL connection
+			// Invoke driver manager to build MySQL connection
 			Connection connection = DriverManager.getConnection(MySQLDBUtil.URL);
 			if (connection == null) {
 				return;

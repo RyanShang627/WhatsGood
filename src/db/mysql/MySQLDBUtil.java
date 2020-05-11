@@ -1,7 +1,7 @@
 package db.mysql;
 
 /**
- * This class restores the utilities of MySQL database
+ * This class stores the utilities of MySQL database
  * 
  * @author Ryan Shang
  * @date 2020-May-07 10:24:23 PM
