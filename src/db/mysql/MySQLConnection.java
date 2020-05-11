@@ -286,7 +286,7 @@ public class MySQLConnection implements DBConnection {
 		}
 		try {
 			String sql = "SELECT user_id FROM users WHERE user_id = ? AND password = ?";
-			
+						
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, userId);
 			stmt.setString(2, password);
@@ -294,12 +294,14 @@ public class MySQLConnection implements DBConnection {
 			ResultSet rs = stmt.executeQuery();
 			
 			if (rs.next()) {
+				System.out.println("Login verify success");
 				return true;
 			}
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		System.out.println("Login verify failed");
 		return false;
 	}
 
