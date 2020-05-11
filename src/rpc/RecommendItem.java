@@ -37,7 +37,7 @@ public class RecommendItem extends HttpServlet {
 		// Allow access only if the session exists
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			response.setStatus(403); // 403 means "Unauthorized"
+			response.setStatus(403); // 403 means "Authorization error" <=> No access
 			return;
 		}
 
@@ -63,7 +63,7 @@ public class RecommendItem extends HttpServlet {
 		// Allow access only if the session exists
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			response.setStatus(403); // 403 means "Unauthorized"
+			response.setStatus(403); // 403 means "Authorization error" <=> No access
 			return;
 		}
 	}

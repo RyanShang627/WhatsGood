@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
 			} else {
 				obj.put("status", "Invalid Session");
-				response.setStatus(403);
+				response.setStatus(403);  // 403 means "Authorization error" <=> No access
 			}
 			// write the JSON object to the response
 			RpcHelper.writeJSONObject(response, obj);
@@ -91,7 +91,7 @@ public class Login extends HttpServlet {
 				obj.put("status", "OK").put("user_id", userId).put("name", connection.getFullname(userId));
 			} else {
 				obj.put("status", "User Doesn't Exist");
-				response.setStatus(401);
+				response.setStatus(401);  // 401: Authentication error <=> Login failure
 			}
 			RpcHelper.writeJSONObject(response, obj);
 		} catch (Exception e) {
