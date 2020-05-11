@@ -1,7 +1,7 @@
 package db.mongodb;
 
-// "import static" allows to direclty use "eq" as a method
-// otherwise, it has to be called like: "Filters.eq()" when:
+// "import static" allows to direclty use "eq" as a method.
+// Otherwise, it has to be called like: "Filters.eq()" when:
 // import com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.eq;
 
@@ -163,7 +163,9 @@ public class MongoDBConnection implements DBConnection {
 			return;
 		}
 
-		// Obtain the iterable result
+		// Obtain the iterable result. Equivalent expression:
+		// FindIterable<Document> iterable = db.getCollection("items").find(new
+		// Document("item_id",item.getItemId()));
 		FindIterable<Document> iterable = db.getCollection("items").find(new Document("item_id", item.getItemId()));
 
 		// Save item to db when this item does not exist

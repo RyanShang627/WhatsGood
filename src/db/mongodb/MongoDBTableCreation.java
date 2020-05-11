@@ -27,15 +27,16 @@ public class MongoDBTableCreation {
 	public static void main(String[] args) throws ParseException {
 
 		// Step 1, Connect to MongoDB
-		MongoClient mongoClient = MongoClients.create(); // Create client
+		MongoClient mongoClient = MongoClients.create(); // Default params: localhost(server), 27017(port number)
 		MongoDatabase db = mongoClient.getDatabase(MongoDBUtil.DB_NAME);
 
-		// Step 2, Remove old collections from the database
+		// Step 2, Remove existing collections from the database
 		db.getCollection("users").drop();
 		db.getCollection("items").drop();
 
-		// Step 3, Create new collections
+		// Step 3, Create new collections and set index (can ignore schema setting)
 		IndexOptions indexOptions = new IndexOptions().unique(true);
+		// getCollection() -> if collection does not exist, create it
 		// "new Document()" is used to create a JSON format: { }
 		db.getCollection("users").createIndex(new Document("user_id", 1), indexOptions); // "1" means ascending order
 		db.getCollection("items").createIndex(new Document("item_id", 1), indexOptions);
@@ -47,7 +48,7 @@ public class MongoDBTableCreation {
 
 		// Close the MongoDB connection
 		mongoClient.close();
-		
+
 		System.out.println("Import is done successfully.");
 
 	}
