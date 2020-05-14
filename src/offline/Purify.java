@@ -47,10 +47,8 @@ public class Purify {
 		// in the Virtual machine on the AWS EC2.
 		// Switch to your own path of the tomcat log file
 		String filePath = new File("").getAbsolutePath();
-		// The test log file is stored in the root\\log
+		// The test log file (tomcat_log.txt) is stored in the "logs" folder
 		String fileName = filePath.concat("\\logs\\tomcat_log.txt");
-		
-		
 
 		try {
 			// Drop the log collection first
