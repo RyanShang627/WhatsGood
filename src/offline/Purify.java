@@ -1,6 +1,7 @@
 package offline;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.List;
@@ -42,8 +43,14 @@ public class Purify {
 		MongoClient mongoClient = new MongoClient();
 		MongoDatabase db = mongoClient.getDatabase(MongoDBUtil.DB_NAME);
 
+		// Note: the log file can be found and downloaded from '/opt/tomcat/logs' folder
+		// in the Virtual machine on the AWS EC2.
 		// Switch to your own path of the tomcat log file
-		String fileName = "C:\\Workspace\\laioffer\\WhatsGood-backend\\tomcat_log.txt";
+		String filePath = new File("").getAbsolutePath();
+		// The test log file is stored in the root\\log
+		String fileName = filePath.concat("\\logs\\tomcat_log.txt");
+		
+		
 
 		try {
 			// Drop the log collection first
